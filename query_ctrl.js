@@ -17,8 +17,8 @@ function (angular, sdk) {
 
       var target = this.target;
 
-      target.function = target.function || 'mean';
-      target.column = target.column || 'value';
+      target.function = target.function || 'sum';
+      target.column = target.column || 'count';
 
       // backward compatible correction of schema
       if (target.condition_value) {
