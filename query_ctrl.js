@@ -34,7 +34,7 @@ function (angular, sdk) {
       }
 
       this.functions = [
-        'count', 'mean', 'sum', 'min',
+        'count', 'sum', 'min',
         'max', 'mode', 'distinct', 'median',
         'derivative', 'stddev', 'first', 'last',
         'difference'

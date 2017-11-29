@@ -20,10 +20,10 @@ describe('InfluxDatasource', function() {
 
   describe('When querying influxdb with one target using query editor target spec', function() {
     var results;
-    var urlExpected = "/series?p=mupp&q=select+mean(value)+from+%22test%22+where+time+%3E+now()-1h+group+by+time(1s)+order+asc";
+    var urlExpected = "/series?p=mupp&q=select+sum(value)+from+%22test%22+where+time+%3E+now()-1h+group+by+time(1s)+order+asc";
     var query = {
       rangeRaw: { from: 'now-1h', to: 'now' },
-      targets: [{ series: 'test', column: 'value', function: 'mean' }],
+      targets: [{ series: 'test', column: 'value', function: 'sum' }],
       interval: '1s'
     };
 

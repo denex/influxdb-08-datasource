@@ -10,7 +10,7 @@ describe('InfluxQueryBuilder', function() {
     var builder = new InfluxQueryBuilder({
       series: 'google.test',
       column: 'value',
-      function: 'mean',
+      function: 'sum',
       condition: "code=1",
       groupby_field: 'code'
     });
@@ -18,7 +18,7 @@ describe('InfluxQueryBuilder', function() {
     var query = builder.build();
 
     it('should generate correct query', function() {
-      expect(query).to.be('select code, mean(value) from "google.test" where $timeFilter and code=1 ' +
+      expect(query).to.be('select code, sum(value) from "google.test" where $timeFilter and code=1 ' +
                           'group by time($interval), code order asc');
     });
 
@@ -32,14 +32,14 @@ describe('InfluxQueryBuilder', function() {
     var builder = new InfluxQueryBuilder({
       series: 'google.test',
       column: 'value',
-      function: 'mean',
+      function: 'sum',
       fill: '0',
     });
 
     var query = builder.build();
 
     it('should generate correct query', function() {
-      expect(query).to.be('select mean(value) from "google.test" where $timeFilter ' +
+      expect(query).to.be('select sum(value) from "google.test" where $timeFilter ' +
                           'group by time($interval) fill(0) order asc');
     });
 
@@ -50,12 +50,12 @@ describe('InfluxQueryBuilder', function() {
       var builder = new InfluxQueryBuilder({
         series: 'merge(/^google.test/)',
         column: 'value',
-        function: 'mean'
+        function: 'sum'
       });
 
       var query = builder.build();
 
-      expect(query).to.be('select mean(value) from merge(/^google.test/) where $timeFilter ' +
+      expect(query).to.be('select sum(value) from merge(/^google.test/) where $timeFilter ' +
                           'group by time($interval) order asc');
     });
 
@@ -63,12 +63,12 @@ describe('InfluxQueryBuilder', function() {
       var builder = new InfluxQueryBuilder({
         series: 'merge.google.test',
         column: 'value',
-        function: 'mean'
+        function: 'sum'
       });
 
       var query = builder.build();
 
-      expect(query).to.be('select mean(value) from "merge.google.test" where $timeFilter ' +
+      expect(query).to.be('select sum(value) from "merge.google.test" where $timeFilter ' +
                           'group by time($interval) order asc');
     });
 

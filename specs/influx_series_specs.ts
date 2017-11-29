@@ -10,12 +10,12 @@ describe('when generating timeseries from influxdb response', function() {
     var series = new InfluxSeries({
       seriesList: [
         {
-          columns: ['time', 'mean', 'sequence_number'],
+          columns: ['time', 'sum', 'sequence_number'],
           name: 'prod.server1.cpu',
           points: [[1402596000, 10, 1], [1402596001, 12, 2]]
         },
         {
-          columns: ['time', 'mean', 'sequence_number'],
+          columns: ['time', 'sum', 'sequence_number'],
           name: 'prod.server2.cpu',
           points: [[1402596000, 15, 1], [1402596001, 16, 2]]
         }
@@ -26,13 +26,13 @@ describe('when generating timeseries from influxdb response', function() {
 
     it('should generate two time series', function() {
       expect(result.length).to.be(2);
-      expect(result[0].target).to.be('prod.server1.cpu.mean');
+      expect(result[0].target).to.be('prod.server1.cpu.sum');
       expect(result[0].datapoints[0][0]).to.be(10);
       expect(result[0].datapoints[0][1]).to.be(1402596000);
       expect(result[0].datapoints[1][0]).to.be(12);
       expect(result[0].datapoints[1][1]).to.be(1402596001);
 
-      expect(result[1].target).to.be('prod.server2.cpu.mean');
+      expect(result[1].target).to.be('prod.server2.cpu.sum');
       expect(result[1].datapoints[0][0]).to.be(15);
       expect(result[1].datapoints[0][1]).to.be(1402596000);
       expect(result[1].datapoints[1][0]).to.be(16);
@@ -45,7 +45,7 @@ describe('when generating timeseries from influxdb response', function() {
     var series = new InfluxSeries({
       seriesList: [
         {
-          columns: ['time', 'mean', 'sequence_number'],
+          columns: ['time', 'sum', 'sequence_number'],
           name: 'prod.server1.cpu',
           points: [[1402596000, 10, 1], [1402596001, 12, 2]]
         }
@@ -65,18 +65,18 @@ describe('when generating timeseries from influxdb response', function() {
     var series = new InfluxSeries({
       seriesList: [
         {
-          columns: ['time', 'mean', 'sequence_number'],
+          columns: ['time', 'sum', 'sequence_number'],
           name: 'prod.server1.cpu',
           points: [[1402596000, 10, 1], [1402596001, 12, 2]]
         }
       ],
-      alias: '$1.mean'
+      alias: '$1.sum'
     });
 
     var result = series.getTimeSeries();
 
     it('should generate correct series name', function() {
-      expect(result[0].target).to.be('server1.mean');
+      expect(result[0].target).to.be('server1.sum');
     });
 
   });
@@ -85,18 +85,18 @@ describe('when generating timeseries from influxdb response', function() {
     var series = new InfluxSeries({
       seriesList: [
         {
-          columns: ['time', 'mean', 'sequence_number'],
+          columns: ['time', 'sum', 'sequence_number'],
           name: 'a0.a1.a2.a3.a4.a5.a6.a7.a8.a9.a10.a11.a12',
           points: [[1402596000, 10, 1], [1402596001, 12, 2]]
         }
       ],
-      alias: '$5.$11.mean'
+      alias: '$5.$11.sum'
     });
 
     var result = series.getTimeSeries();
 
     it('should generate correct series name', function() {
-      expect(result[0].target).to.be('a5.a11.mean');
+      expect(result[0].target).to.be('a5.a11.sum');
     });
 
   });
@@ -106,7 +106,7 @@ describe('when generating timeseries from influxdb response', function() {
     var series = new InfluxSeries({
       seriesList: [
         {
-          columns: ['time', 'mean', 'host'],
+          columns: ['time', 'sum', 'host'],
           name: 'prod.cpu',
           points: [[1402596000, 10, 'A']]
         }
@@ -127,7 +127,7 @@ describe('when generating timeseries from influxdb response', function() {
     var series = new InfluxSeries({
       seriesList: [
         {
-          columns: ['time', 'mean', 'host'],
+          columns: ['time', 'sum', 'host'],
           name: 'prod.cpu',
           points: [
             [1402596000, 10, 'A'],
